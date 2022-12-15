@@ -1,0 +1,35 @@
+{
+  "name": "wireit-watch-issue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.16.7",
+    "wireit": "^0.9.2"
+  },
+  "scripts": {
+    "serve": "wireit",
+    "build": "wireit"
+  },
+  "wireit": {
+    "serve": {
+      "command": "node ./service.js",
+      "service": true,
+      "files": [
+        "./service.js",
+        "./files/**/*",
+        "!./files/**/*.json"
+      ],
+      "dependencies": [{
+        "script": "build",
+        "cascade": false
+      }]
+    },
+    "build": {
+      "command": "esbuild src/test.ts --bundle --splitting --outdir=static/ --format=esm --minify",
+      "files": ["./src/**/*"],
+      "output": ["static/**"],
+      "clean": "if-file-deleted"
+    }
+  }
+}
